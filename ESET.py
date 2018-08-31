@@ -1,33 +1,35 @@
-# The MIT License (MIT)
+'''
+The MIT License (MIT)
 
-# Copyright (c) 2013, Nicholas Juszczak
+Copyright (c) 2013 Nicholas Juszczak
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+'''
+'''
+Script for automating the running of ESET
 
-
-# Script for automating the running of ESET
-# Last Modified: August 5, 2013
+Last Modified: August 5, 2013
+'''
 
 import pywinauto
 import time
 import sys
-import logging
 from pywinauto import application
 from winsound import Beep
 
@@ -66,7 +68,7 @@ def beep():
     try:
         Beep(beepFreq, beepDur)
     except:
-        log.error('Unable to beep... :(')
+        print 'Unable to beep... :('
 
 
 def runEset():
@@ -78,14 +80,14 @@ def runEset():
         time.sleep(1)
         
     if attempts == 0:
-        log.error('Error starting ESET')
+        print 'Error starting ESET'
         beep()
         sys.exit(-1)
         
     app['Terms of use'].CheckBox.Click()
     app['Terms of use'].Button.Click()
 
-    log.info('Terms of use window closed')
+    print 'Terms of use window closed'
     
     dlg = None
     attempts = 60
@@ -97,12 +99,12 @@ def runEset():
             time.sleep(2)
 
     if attempts == 0:
-        log.error('Error: timeout starting ESET')
+        print 'Error: timeout starting ESET'
         beep()
         sys.exit(-1)
 
     app['ESET Online Scanner'].Start.Click()
-    log.info('Started scan')
+    print 'Started scan'
 
     attempts = 4000
     while 'Finish' not in app['ESET Online Scanner'].Button.GetProperties()['Texts'][0] and attempts > 0:
@@ -110,21 +112,22 @@ def runEset():
         time.sleep(6)
 
     if attempts == 0:
-        log.error('Error: timeout running ESET')
+        print 'Error: timeout running ESET'
         beep()
         sys.exit(-1)
 
     app['ESET Online Scanner'].CheckBox.Click()
-    log.error('Uninstall Clicked')
+    print 'Uninstall Clicked'
     time.sleep(5)
     
     app['ESET Online Scanner'].FinishButton.Click()
-    log.info('Finish Clicked')
+    print 'Finish Clicked'
     time.sleep(5)
     
     app.kill_()
 
-    log.info("ESET Successfully ran and closed")
+    print "ESET Successfully ran and closed"
+
 
 if __name__ == '__main__':
     runEset()

@@ -1,28 +1,36 @@
-# The MIT License (MIT)
+'''
+The MIT License (MIT)
 
-# Copyright (c) 2013, Nicholas Juszczak
+Copyright (c) 2013 Nicholas Juszczak
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+'''
+'''
+Script for automating the running of Spybot
+and uninstalling
 
-
-# Script for automating the running of Spybot and uninstalling
-# Last Modified: August 5, 2013
+<<<<<<< HEAD
+Last Modified: August 5, 2013
+=======
+Last Modified: July 31, 2013
+>>>>>>> 6c5bd96d02642efb4442c6ce09cbd6cb3691c8fa
+'''
 
 import pywinauto
 import time
@@ -71,7 +79,7 @@ def beep():
     try:
         Beep(beepFreq, beepDur)
     except:
-        log.info('Unable to beep... :(')
+        print 'Unable to beep... :('
 
 
 def uninstallSpybot():
@@ -95,7 +103,7 @@ def uninstallSpybot():
 
     # Wait for uninstall button prompt
     attempts = 10
-    while not app.dlg.UninstallButton.Exists(timeout=5):
+    while not app.dlg.UninstallButton.Exists():
         attempts -= 1
         time.sleep(1)
 
@@ -113,27 +121,15 @@ def uninstallSpybot():
         log.error('Error clicking button')
 
     log.info('Spybot successfully uninstalled')
-
+    
 
 # Run Spybot default
 def runSpybot():
     app = application.Application().start_(args['executable'] + ' /autoimmunize /autocheck /autofix /autoclose')
 
-    time.sleep(10)
-
-    try:
-        error = application.Application().connect(title_re='Error')
-        if error['Error'].Exists():
-            error['Error'].Ok.Click()
-    except:
-        log.info('No error window found')
-
     # Wait for popup
-    # TODO: fix problem
     attempts = 100
-    dlg = None
     while not app['Legal stuffTformLegals'].Exists() and attempts > 0:
-        # Spybot loves to think it's corrupted
         attempts -= 1
         time.sleep(2)
 
@@ -141,11 +137,10 @@ def runSpybot():
         log.error('Error: timeout starting Spybot')
         beep()
         sys.exit(-1)
-
+    
     # Click popup when it appears
     dlg = app['Legal stuffTformLegals']
     dlg.OK.Click()
-    log.info('Terms accepted')
 
     log.info('Spybot succesfully started.')
 

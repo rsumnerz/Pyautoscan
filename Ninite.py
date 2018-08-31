@@ -1,34 +1,39 @@
-# The MIT License (MIT)
-
-# Copyright (c) 2013, Nicholas Juszczak
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-
-# Script for automating the running of Ninite
-# Last Modified: August 5, 2013
 '''
->>>>>>> 6468df9
+The MIT License (MIT)
+
+Copyright (c) 2013 Nicholas Juszczak
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+'''
+'''
+<<<<<<< HEAD
+Script for automating the running of Ninite
+Last Modified: August 5, 2013
+=======
+Script for automating the run of Ninite
+Last Modified: July 31, 2013
+>>>>>>> 6c5bd96d02642efb4442c6ce09cbd6cb3691c8fa
+'''
 
 import pywinauto
 import time
 import sys
-import logging
 from pywinauto import application
 
 # cli parameter parsing
@@ -65,12 +70,12 @@ def beep():
     try:
         Beep(beepFreq, beepDur)
     except:
-        log.info('Unable to beep... :(')
+        print 'Unable to beep... :('
 
 
 #Runs the Ninite executable
 def runNinite():
-    log.info('Starting ' + args['ninite'])
+    print 'Starting ', args['ninite']
     #Start the Ninite Application
     app = application.Application().start_(args['ninite'])
 
@@ -86,11 +91,11 @@ def runNinite():
 
     #If the connection timed out, print error. 
     if dlg == None:
-        log.info("Error connecting to Ninite: timed out")
+        print "Error connecting to Ninite: timed out"
         beep()
         sys.exit(-1)
     else:
-        log.info('Ninite successfully started and connected')
+        print 'Ninite successfully started and connected'
 
     #Check to see whether Ninite has finished installing or not.
     #600 attempts = ~20 minutes
@@ -104,11 +109,11 @@ def runNinite():
 
     #Check to see whether or not Ninite timed out
     if attempts == 0:
-        log.info('Timed out installing.')
+        print 'Timed out installing.'
         beep()
         sys.exit(-1)
     else:
-        log.info('Installation Succeeded!')
+        print 'Installation Succeeded!'
         app.kill_()
 
 
