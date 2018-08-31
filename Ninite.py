@@ -22,6 +22,8 @@
 
 # Script for automating the running of Ninite
 # Last Modified: August 5, 2013
+'''
+>>>>>>> 6468df9
 
 import pywinauto
 import time
